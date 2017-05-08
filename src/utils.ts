@@ -14,7 +14,7 @@ export function statAsync(path: string): Promise<fs.Stats> {
     return new Promise<fs.Stats>((resolve, reject) => {
         fs.stat(path, (statErr: NodeJS.ErrnoException, stats: fs.Stats) => {
             if (statErr) {
-                return reject(new Error(`statAsync: path=${path} err=${statErr}`));
+                return reject(new Error(`statAsync: ${statErr.message}`));
             }
             return resolve(stats);
         });
@@ -35,14 +35,14 @@ export function unlinkAsync(path: string, throwOnErr?: boolean): Promise<string>
             fs.unlink(path, (unlinkErr) => {
                 if (unlinkErr && throwOnErr) {
                     return reject(
-                        new Error(`unlinkAsync: path=${path} err=${unlinkErr}`));
+                        new Error(`unlinkAsync: ${unlinkErr.message}`));
                 }
                 return resolve(path);
             });
         });
     } catch (ex) {
         if (throwOnErr) {
-            return Promise.reject(new Error(`unlinkAsync: err=${ex}`));
+            return Promise.reject(new Error(`unlinkAsync: ${ex.message}`));
         } else {
             return Promise.resolve(path);
         }
@@ -60,9 +60,7 @@ export function readFileAsync(filePath: string): Promise<Uint8Array> {
     return new Promise<Uint8Array>((resolve, reject) => {
         fs.readFile(filePath, (err, data) => {
             if (err) {
-                return reject(new Error(`readFileAsync: filePath=${filePath} err=${err}`));
-                //return reject(`shit`);
-                //throw new Error(`readFileAsync: filePath=${filePath} err=${err}`);
+                return reject(new Error(`readFileAsync: ${err.message}`));
             } else {
                 return resolve(new Uint8Array(data));
             }

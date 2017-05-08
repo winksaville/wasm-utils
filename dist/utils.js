@@ -23,7 +23,7 @@ function statAsync(path) {
     return new Promise((resolve, reject) => {
         fs.stat(path, (statErr, stats) => {
             if (statErr) {
-                return reject(new Error(`statAsync: path=${path} err=${statErr}`));
+                return reject(new Error(`statAsync: ${statErr.message}`));
             }
             return resolve(stats);
         });
@@ -43,7 +43,7 @@ function unlinkAsync(path, throwOnErr) {
         return new Promise((resolve, reject) => {
             fs.unlink(path, (unlinkErr) => {
                 if (unlinkErr && throwOnErr) {
-                    return reject(new Error(`unlinkAsync: path=${path} err=${unlinkErr}`));
+                    return reject(new Error(`unlinkAsync: ${unlinkErr.message}`));
                 }
                 return resolve(path);
             });
@@ -51,7 +51,7 @@ function unlinkAsync(path, throwOnErr) {
     }
     catch (ex) {
         if (throwOnErr) {
-            return Promise.reject(new Error(`unlinkAsync: err=${ex}`));
+            return Promise.reject(new Error(`unlinkAsync: ${ex.message}`));
         }
         else {
             return Promise.resolve(path);
@@ -70,9 +70,7 @@ function readFileAsync(filePath) {
     return new Promise((resolve, reject) => {
         fs.readFile(filePath, (err, data) => {
             if (err) {
-                return reject(new Error(`readFileAsync: filePath=${filePath} err=${err}`));
-                //return reject(`shit`);
-                //throw new Error(`readFileAsync: filePath=${filePath} err=${err}`);
+                return reject(new Error(`readFileAsync: ${err.message}`));
             }
             else {
                 return resolve(new Uint8Array(data));
