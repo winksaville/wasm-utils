@@ -1,0 +1,10 @@
+out/
+node-v8/
+node_modules/
+
+*.swp
+*.bc
+*.s
+*.wast
+*.wasm
+*.log
