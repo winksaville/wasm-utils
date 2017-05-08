@@ -2,7 +2,8 @@
   "name": "test-clang-and-wasm-merge",
   "version": "0.0.1",
   "description": "Test clang and wasm-merge",
-  "main": "",
+  "main": "./dist/utils.js",
+  "types": "./dist/utils.d.ts",
   "repository": "git@github.com:winksaville/test-clang-and-wasm-merge.git",
   "author": "Wink Saville <wink@saville.com>",
   "license": "MIT",
@@ -10,12 +11,13 @@
     "cleanup": "rm -rf out",
     "distcleanup": "yarn cleanup && rm -rf node_v8 node_modules",
     "build:alsatian": "cd node_modules/alsatian && npm run build",
+    "build": "tsc -p src/utils.tsconfig.json",
     "add:node-v8": "rm -rf node-v8 && mkdir node-v8 && curl https://nodejs.org/download/nightly/v8.0.0-nightly201704186c912a8216/node-v8.0.0-nightly201704186c912a8216-linux-x64.tar.xz -s -o node-v8.tar.xz && tar -xJf node-v8.tar.xz -C node-v8 --strip-components 1 && rm node-v8.tar.xz",
     "initialize": "yarn build:alsatian && yarn add:node-v8",
-    "pretest": "tsc -p utils/utils.tsconfig.json && tsc -p utils/utils.spec.tsconfig.json",
-    "test": "./node-v8/bin/node ./node_modules/alsatian/cli/alsatian-cli.js out/tests/utils.spec.js",
+    "pretest": "yarn build && tsc -p src/utils.spec.tsconfig.json",
+    "test": "./node-v8/bin/node ./node_modules/alsatian/cli/alsatian-cli.js out/utils.spec.js",
     "pretest:dbg": "yarn pretest",
-    "test:dbg": "DEBUG=utils.spec ./node-v8/bin/node ./node_modules/alsatian/cli/alsatian-cli.js out/tests/utils.spec.js --tap | tap-fail-exit-one"
+    "test:dbg": "DEBUG=utils.spec ./node-v8/bin/node ./node_modules/alsatian/cli/alsatian-cli.js out/utils.spec.js --tap | tap-fail-exit-one"
   },
   "dependencies": {
     "debug": "^2.6.3",

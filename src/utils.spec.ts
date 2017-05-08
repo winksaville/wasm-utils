@@ -8,7 +8,6 @@ import hookStdOut = require("intercept-stdout");
 import {
     AsyncTest,
     Expect,
-    IgnoreTest,
     SetupFixture,
     TeardownFixture,
     Test,
@@ -26,7 +25,7 @@ import {
     module2WasmInstance,
     displayWasmModuleExports,
     displayWasmModuleImports,
-} from "./utils";
+} from "../dist/utils";
 
 import * as debugModule from "debug";
 const debug = debugModule("utils.spec");
@@ -43,18 +42,12 @@ export class UtilsTests {
         debug("teardownFixture:#");
     }
 
-    @IgnoreTest()
-    @Test()
-    public testFailingToBe() {
-        Expect(1).toBe(2);
-    }
-
     @AsyncTest("Test readFileAsync success")
     public async testReadFileAsync() {
         let data = new Uint8Array(0);
 
         await Expect(async () => {
-            data = await readFileAsync("./utils/data.txt")
+            data = await readFileAsync("./src/data.txt")
         }).not.toThrowAsync();
 
         Expect(data.length).toBe(9);
@@ -71,7 +64,7 @@ export class UtilsTests {
         await Expect(() => readFileAsync("non-existent-file")).toThrowAsync();
     }
 
-    @TestCase("./utils/ok.c")
+    @TestCase("./src/ok.c")
     @AsyncTest("Test clang2wasm succeeds")
     public async testClang2wasmSuccess(inFile: string) {
         let outFile: string;
@@ -85,7 +78,7 @@ export class UtilsTests {
 
     @AsyncTest("Test clang2wasm fails on bad c file")
     public async testClang2wasmFailsOnBadFile() {
-        await Expect(() => clang2wasm("./utils/bad.c")).toThrowAsync();
+        await Expect(() => clang2wasm("./src/bad.c")).toThrowAsync();
     }
 
     @AsyncTest("Test clang2wasm fails on non existent file")
@@ -93,7 +86,7 @@ export class UtilsTests {
         await Expect(() => clang2wasm("non-existent-file")).toThrowAsync();
     }
 
-    @TestCase("./utils/inc.c")
+    @TestCase("./src/inc.c")
     @AsyncTest("test instantiateWasmFile")
     public async testInstantiateWasmFile(filePath: string) {
         let wasmFile: string;
@@ -119,7 +112,7 @@ export class UtilsTests {
         }
     }
 
-    @TestCase("./utils/inc.c")
+    @TestCase("./src/inc.c")
     @AsyncTest("test clang2WasmInstance")
     public async testClang2WasmInstance(filePath: string) {
         let inst: WebAssembly.Instance;
@@ -134,7 +127,7 @@ export class UtilsTests {
         }
     }
 
-    @TestCase("./utils/getNumberAndInc.c")
+    @TestCase("./src/getNumberAndInc.c")
     @AsyncTest("test display WasmModule imports and imports")
     public async testDisplayWasmModuleImportsAndExports(filePath: string) {
         let fileName = path.basename(filePath);

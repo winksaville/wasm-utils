@@ -2,7 +2,7 @@
     "extends": "../tsconfig.base.json",
     "compilerOptions": {
         "sourceMap": true,
-        "outDir": "../out/tests"
+        "outDir": "../out"
     },
     "files": [
         "utils.spec.ts"
