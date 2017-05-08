@@ -1,6 +1,6 @@
 {
-  "name": "test-clang-and-wasm-merge",
-  "version": "0.0.1",
+  "name": "wasm-utils",
+  "version": "0.1.0",
   "description": "Test clang and wasm-merge",
   "main": "./dist/utils.js",
   "types": "./dist/utils.d.ts",
