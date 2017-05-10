@@ -3,7 +3,7 @@
  */
 import * as path from "path";
 
-import hookStdOut = require("intercept-stdout");
+import * as hookStdOut from "intercept-stdout";
 
 import {
     AsyncTest,

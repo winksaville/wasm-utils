@@ -25,9 +25,9 @@
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/@types/webassembly-js-api/-/webassembly-js-api-0.0.0.tgz#a4def3c6d1a5c951190d1649e6844eda9a9e5432"
 
-"alsatian@https://github.com/winksaville/alsatian#add-Messages-to-toThrowAsync":
+"alsatian@https://github.com/alsatian-test/alsatian":
   version "1.3.0"
-  resolved "https://github.com/winksaville/alsatian#fc36dfd76b9e1cd6dcaecc8d3bb08d4bbc7de4ae"
+  resolved "https://github.com/alsatian-test/alsatian#554949f1163baa8c82d3a53ef8087842f781fdc3"
   dependencies:
     "@types/glob" "^5.0.30"
     "@types/node" ">=0.0.2"
