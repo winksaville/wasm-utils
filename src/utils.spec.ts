@@ -1,23 +1,21 @@
 /**
  * Test Utils
  */
-import * as path from "path";
-
-import * as hookStdOut from "intercept-stdout";
+// Cannot import with strict compiler flags as there is no .d.ts file
+// import * as hookStdOut from "intercept-stdout";
+var hookStdOut = require("intercept-stdout");
 
 import {
     AsyncTest,
     Expect,
     SetupFixture,
     TeardownFixture,
-    Test,
     TestCase,
     TestFixture,
 } from "alsatian";
 
 import {
     readFileAsync,
-    wast2wasm,
     wasm2WasmModule,
     clang2wasm,
     clang2WasmModule,
@@ -67,7 +65,7 @@ export class UtilsTests {
     @TestCase("./src/ok.c")
     @AsyncTest("Test clang2wasm succeeds")
     public async testClang2wasmSuccess(inFile: string) {
-        let outFile: string;
+        let outFile: string = "";
 
         debug(`testClang2wasmSuccess:+ ${inFile}`);
         await Expect(async () => {
@@ -100,7 +98,7 @@ export class UtilsTests {
             mod = await wasm2WasmModule(wasmFile);
         }).not.toThrowAsync();
 
-        let inst: WebAssembly.Instance;
+        let inst: WebAssembly.Instance | undefined;
         await Expect(async () => {
             inst = await module2WasmInstance(mod);
         }).not.toThrowAsync();
@@ -115,7 +113,8 @@ export class UtilsTests {
     @TestCase("./src/inc.c")
     @AsyncTest("test clang2WasmInstance")
     public async testClang2WasmInstance(filePath: string) {
-        let inst: WebAssembly.Instance;
+        let inst: WebAssembly.Instance | undefined;
+
         await Expect(async () => {
             inst = await clang2WasmInstance(filePath);
         }).not.toThrowAsync();
@@ -130,10 +129,7 @@ export class UtilsTests {
     @TestCase("./src/getNumberAndInc.c")
     @AsyncTest("test display WasmModule imports and imports")
     public async testDisplayWasmModuleImportsAndExports(filePath: string) {
-        let fileName = path.basename(filePath);
-        let dirName = path.dirname(filePath);
-
-        let mod: WebAssembly.Module;
+        let mod: WebAssembly.Module | undefined;
         await Expect(async () => {
             mod = await clang2WasmModule(filePath);
         }).not.toThrowAsync();
@@ -141,8 +137,10 @@ export class UtilsTests {
         let logs: string[] = [];
         let unhookStdOut = hookStdOut((s: string) => logs.push(s.trim()));
         try {
-            displayWasmModuleExports(mod);
-            displayWasmModuleImports(mod);
+            if (mod) {
+                displayWasmModuleExports(mod);
+                displayWasmModuleImports(mod);
+            }
         } catch (err) {
             <void>err;
         } finally {

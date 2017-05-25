@@ -3,6 +3,8 @@
     "target": "es6",
     "module": "commonjs",
     "moduleResolution": "Node",
+    "sourceMap": true,
+    "allowJs": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   }

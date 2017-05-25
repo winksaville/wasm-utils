@@ -17,7 +17,7 @@
     "pretest": "yarn build && tsc -p src/utils.spec.tsconfig.json",
     "test": "./node-v8/bin/node ./node_modules/alsatian/cli/alsatian-cli.js out/utils.spec.js",
     "pretest:dbg": "yarn pretest",
-    "test:dbg": "DEBUG=utils.spec ./node-v8/bin/node ./node_modules/alsatian/cli/alsatian-cli.js out/utils.spec.js --tap | tap-fail-exit-one"
+    "test:dbg": "DEBUG=utils.spec ./node-v8/bin/node ./node_modules/alsatian/cli/alsatian-cli.js -t 500 out/utils.spec.js --tap | tap-fail-exit-one"
   },
   "dependencies": {
     "@types/webassembly-js-api": "^0.0.0",
